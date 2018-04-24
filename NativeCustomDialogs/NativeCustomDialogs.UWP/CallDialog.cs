@@ -9,7 +9,11 @@ using System.Threading.Tasks;
    typeof(CallDialog))]
 namespace NativeCustomDialogs.UWP
 {
-    public class CallDialog
+    public class CallDialog : ICallDialog
     {
+        Task ICallDialog.CallDialog(object viewModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
