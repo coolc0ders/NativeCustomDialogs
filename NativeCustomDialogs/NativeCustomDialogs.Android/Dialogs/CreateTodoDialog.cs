@@ -23,6 +23,11 @@ namespace NativeCustomDialogs.Droid.Dialogs
         Button _cancelBtn;
         Spinner _icons;
 
+        public CreateTodoDialog(CreateTodoViewModel vm)
+        {
+            ViewModel = vm;
+        }
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.CreateTodoLayout,
@@ -32,16 +37,18 @@ namespace NativeCustomDialogs.Droid.Dialogs
             _doneBtn = view.FindViewById<Button>(Resource.Id.CatDoneButton);
             _cancelBtn = view.FindViewById<Button>(Resource.Id.CatCancelButton);
 
-            _titleEditText.Hint = ViewModel.TitlePlaceholder;
+            _titleEditText.Hint = "Title";
+
+            //Use WhenAny to create a kind of one way databining between view and viewmodel property
             this.WhenAny(x => x._titleEditText.Text, x => x.Value).Subscribe((val) =>
             {
                 ViewModel.Title = val;
             });
 
-            _doneBtn.Text = "Done".Translate();
-            _cancelBtn.Text = "Cancel".Translate();
+            _doneBtn.Text = "Done";
+            _cancelBtn.Text = "Cancel";
             _doneBtn.Click += DoneBtn_Click;
-            _cancelBtn.Click += CancelBtn_Click;
+            _cancelBtn.Click += (o, e) => this.Dismiss();
 
             return view;
         }
@@ -50,24 +57,22 @@ namespace NativeCustomDialogs.Droid.Dialogs
         {
             if (!string.IsNullOrEmpty(_titleEditText.Text))
             {
-                if (((ICommand)ViewModel.DoneClicked).CanExecute(null))
+                if (((ICommand)ViewModel.CreateTodo).CanExecute(null))
                 {
-                    ((ICommand)ViewModel.DoneClicked).Execute(null);
+                    ((ICommand)ViewModel.CreateTodo).Execute(null);
                     this.Dismiss();
                 }
             }
             else
             {
-                //_validationTextView.Visibility = ViewStates.Visible;
-                //_titleEditText.SetBackgroundResource(Resource.Layout.ErrorEditTextLayout);
-                _titleEditText.SetError("EnterTitleError".Translate(), Resources.GetDrawable(Resource.Drawable.ic_error_outline_black_24dp));
+                _titleEditText.SetError("Enter the title please", Resources.GetDrawable(Resource.Drawable.abc_ab_share_pack_mtrl_alpha));
             }
         }
 
         public override Dialog OnCreateDialog(Bundle savedState)
         {
             var dialog = base.OnCreateDialog(savedState);
-            dialog.SetTitle("Create New Expenditure");
+            dialog.SetTitle("Create New Todo");
             return dialog;
         }
     }

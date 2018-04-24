@@ -10,6 +10,10 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using NativeCustomDialogs.Droid;
+using NativeCustomDialogs.Droid.Dialogs;
+using NativeCustomDialogs.ViewModels;
+using Plugin.CurrentActivity;
+using Xamarin.Forms.Platform.Android;
 
 [assembly: Xamarin.Forms.Dependency(
    typeof(CallDialog))]
@@ -17,9 +21,12 @@ namespace NativeCustomDialogs.Droid
 {
     public class CallDialog : ICallDialog
     {
-        Task ICallDialog.CallDialog(object viewModel)
+        async Task ICallDialog.CallDialog(object viewModel)
         {
-            throw new NotImplementedException();
+            var activity = CrossCurrentActivity.Current.Activity as FormsAppCompatActivity;
+
+            new CreateTodoDialog(viewModel as CreateTodoViewModel)
+                        .Show(activity.SupportFragmentManager, "CreateTodoDialog");
         }
     }
 }
