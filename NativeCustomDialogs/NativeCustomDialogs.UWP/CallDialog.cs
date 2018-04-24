@@ -1,4 +1,6 @@
 ﻿using NativeCustomDialogs.UWP;
+using NativeCustomDialogs.UWP.Dialogs;
+using NativeCustomDialogs.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +13,9 @@ namespace NativeCustomDialogs.UWP
 {
     public class CallDialog : ICallDialog
     {
-        Task ICallDialog.CallDialog(object viewModel)
+        async Task ICallDialog.CallDialog(object viewModel)
         {
-            throw new NotImplementedException();
+            await new CreateTodoDialog(viewModel as CreateTodoViewModel).ShowAsync();
         }
     }
 }
