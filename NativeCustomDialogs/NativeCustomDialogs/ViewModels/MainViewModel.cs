@@ -17,14 +17,18 @@ namespace NativeCustomDialogs.ViewModels
             set => this.RaiseAndSetIfChanged(ref _todos, value);
         }
 
+        public ReactiveCommand CreateTodoCommand { get; set; }
+
         public MainViewModel()
         {
-            //Dont forget to set ChangeTrackingEnabled to true.
-            Todos = new ReactiveList<Todo>() { ChangeTrackingEnabled = true };
+            CreateTodoCommand = ReactiveCommand.Create(async () =>
+            {
+                //CAll the Dialog
+                await DependencyService.Get<ICallDialog>().CallDialog(new CreateTodoViewModel());
+            });
 
-            ///Lets detect when ever a todo Item is marked as done 
-            ///IF it is, it is sent to the bottom of the list
-            ///Else nothing happens
+            Todos = new ReactiveList<Todo>() { ChangeTrackingEnabled = true };
+            
             Todos.ItemChanged.Where(x => x.PropertyName == "IsDone" && x.Sender.IsDone)
                 .Select(x => x.Sender)
                 .Subscribe(x =>
@@ -41,8 +45,13 @@ namespace NativeCustomDialogs.ViewModels
         {
             MessagingCenter.Subscribe<object, Todo>(this, $"ItemCreated", (s, todo) =>
             {
-
+                Todos.Add(todo);
             });
+        }
+
+        public void Stop()
+        {
+            MessagingCenter.Unsubscribe<object, Todo>(this, $"ItemCreated");
         }
     }
 }

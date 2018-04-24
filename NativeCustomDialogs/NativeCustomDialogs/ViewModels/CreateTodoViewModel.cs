@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using NativeCustomDialogs.Models;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,20 +19,11 @@ namespace NativeCustomDialogs.ViewModels
                 this.RaiseAndSetIfChanged(ref _title, value); }
         }
 
-        private string _description;
-
-        public string Description
-        {
-            get { return _description; }
-            set {
-                this.RaiseAndSetIfChanged(ref _description, value); }
-        }
-
         public CreateTodoViewModel()
         {
             CreateTodo = ReactiveCommand.Create(() =>
             {
-                MessagingCenter.Send<>
+                MessagingCenter.Send<object, Todo>(this, $"ItemCreated", new Todo { Title = Title, IsDone = false});
             });
         }
     }
