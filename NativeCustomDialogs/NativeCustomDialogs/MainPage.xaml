@@ -16,8 +16,10 @@
                 <DataTemplate>
                     <ViewCell IsEnabled="{Binding IsEnabled}">
                         <StackLayout Orientation="Horizontal">
-                            <Label Text="{Binding Title}" Style="{DynamicResource ListItemTextStyle}" HorizontalOptions="Start"/>
-                            <Switch IsToggled="{Binding IsDone}" HorizontalOptions="End" IsEnabled="{Binding IsEnabled}"/>
+                            <Label Text="{Binding Title}" Style="{DynamicResource ListItemTextStyle}"
+                                   HorizontalOptions="Start" VerticalOptions="Center"/>
+                            <Switch IsToggled="{Binding IsDone}" HorizontalOptions="End"
+                                    VerticalOptions="Center" IsEnabled="{Binding IsEnabled}"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

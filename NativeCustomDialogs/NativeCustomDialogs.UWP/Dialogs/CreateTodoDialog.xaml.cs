@@ -42,6 +42,7 @@ namespace NativeCustomDialogs.UWP.Dialogs
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            //Perform slight validation in case the Title was input
             if(string.IsNullOrEmpty(TitleDialog.Text))
             {
                 TitleDialog.BorderBrush = new SolidColorBrush(Colors.Red);

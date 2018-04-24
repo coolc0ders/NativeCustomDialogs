@@ -13,7 +13,7 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <Grid>
-        <TextBox Text="{Binding Title}" Name="TitleDialog"/>
+        <TextBox Text="{Binding Title, Mode=TwoWay}" Name="TitleDialog"/>
     </Grid>
     
 </ContentDialog>
